@@ -1,6 +1,15 @@
 @extends('layout.app')
 @section('main_content')
     <div class="col-lg-12">
+        @php
+            $districts = App\Models\AllIndiaPincode::where('statename', 'TAMIL NADU')
+                ->select('Districtname')
+                ->distinct()
+                ->orderBy('Districtname')
+                ->get();
+
+            $products = App\Models\Product::all();
+        @endphp
         <div class="card card-h-100">
             <div class="card-body">
                 <div class="container">
@@ -153,6 +162,37 @@
                                                                 placeholder="IFSC Code" required>
                                                         </div>
                                                     </div>
+                                                    <div class="col-md-3">
+                                                        <div class="mb-3">
+                                                            <label class="form-label" for="product_low_stock">Districts
+                                                                Dealing With
+                                                                *</label>
+                                                            <select class="form-control"
+                                                                name="vendor_areas_dealing_with[]" multiple="multiple"
+                                                                id="vendor_areas_dealing_with" required>
+                                                                @foreach ($districts as $district)
+                                                                    <option value="{{ $district->Districtname }}">
+                                                                        {{ $district->Districtname }}
+                                                                    </option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-3">
+                                                        <div class="mb-3">
+                                                            <label class="form-label" for="product_low_stock">Products
+                                                                *</label>
+                                                            <select class="form-control select2"
+                                                                name="add_vendor_products[]" multiple="multiple"
+                                                                id="add_vendor_products" required>
+                                                                @foreach ($products as $product)
+                                                                    <option value="{{ $product->id }}">
+                                                                        {{ $product->product_name }}
+                                                                    </option>
+                                                                @endforeach
+                                                            </select>
+                                                        </div>
+                                                    </div>
                                                     {{-- <div class="col-md-3">
                                                         <div class="mb-3">
                                                             <label class="form-label" for="">Product
@@ -301,3 +341,21 @@
         </div>
     </div>
 @endsection
+@push('scripts')
+    <script>
+        $(document).ready(function() {
+            $('#vendor_areas_dealing_with').select2({
+                placeholder: "Select Areas",
+                allowClear: true
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            $('#add_vendor_products').select2({
+                placeholder: "Select Products",
+                allowClear: true
+            });
+        });
+    </script>
+@endpush

@@ -453,4 +453,29 @@ class ProductController extends Controller {
         }
     }
 
+    public function updateUniqueName(){
+        try {
+            $products = Product::all();
+
+            foreach($products as $prod){
+                $prod_unique_name = strtolower(
+                    preg_replace('/[^a-zA-Z0-9\s]/', '', $prod->product_name) // Remove special chars
+                );
+                
+                $prod_unique_name = str_replace(' ', '-', $prod_unique_name); 
+
+                $prod->update([
+                    'prod_unique_name'=>$prod_unique_name, 
+                ]);
+            }
+
+            return response()->json([
+                'status'=>'200',
+                'message'=>'unique Name Updated'
+            ]);
+        } catch (\Throwable $th) {
+            Log::error($th);
+        }
+    }
+
 }

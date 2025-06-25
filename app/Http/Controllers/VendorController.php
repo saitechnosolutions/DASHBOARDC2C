@@ -8,6 +8,7 @@ use App\Models\Product;
 use App\Models\ProductStock;
 use App\Models\User;
 use App\Models\Vendor;
+use App\Models\VendorArea;
 use App\Models\VendorOffers;
 use App\Models\VendorProduct;
 use Illuminate\Http\Request;
@@ -51,7 +52,10 @@ class VendorController extends Controller {
             $vendorAccountNumber = $request->vendorAccountNumber;
             $vendorifsc = $request->vendorifsc;
 
-            Vendor::create( [
+            $vendorProducts = $request->vendorproducts;
+            $vendorAreas = $request->vendorareas;
+
+            $newVendor = Vendor::create( [
                 'vendor_name'=> $vendorName,
                 'vendor_email'=>$vendoremail,
                 'contact_name'=>$vendorContactName,
@@ -67,6 +71,25 @@ class VendorController extends Controller {
                 'vendor_account_number'=>$vendorAccountNumber,
                 'vendor_ifsc_number'=>$vendorifsc,
             ] );
+
+            if($vendorProducts){
+                foreach($vendorProducts as $vendorProd){
+                    VendorProduct::create([
+                        'vendor_id'=>$newVendor->id,
+                        'product_id'=>$vendorProd,
+                        'product_pincode'=>$vendorPincode 
+                    ]);
+                }
+            }
+
+            if($vendorAreas){
+                foreach($vendorAreas as $vendorArea){
+                    VendorArea::create([
+                        'vendor_id'=>$newVendor->id,
+                        'vendor_area_name'=>$vendorArea 
+                    ]);
+                }
+            }
 
             $defaultPass = '2025';
 

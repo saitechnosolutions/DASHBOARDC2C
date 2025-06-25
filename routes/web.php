@@ -130,4 +130,6 @@ Route::middleware(['auth'])->group(function () {
     Route::GET('/order/view',[OrderController::class,'index']);
     Route::POST('/order/fetchallorder',[OrderController::class,'fetchallorder']);
     Route::POST('/order/fetchorderdetails',[OrderController::class,'fetchorderdetails']);
+
+    Route::GET('/prod/update-unique-name',[ProductController::class,'updateUniqueName']);
 });

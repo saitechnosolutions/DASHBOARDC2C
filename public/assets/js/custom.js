@@ -815,6 +815,8 @@ $(document).on('submit', '#addVendorForm', function (e) {
     let vendorAccountHolderName = $('#bank_account_name').val()
     let vendorAccountNumber = $('#vendor_account_number').val()
     let vendorifsc = $('#bank_ifsc_code').val()
+    let vendorproducts = $('#vendor_areas_dealing_with').val()
+    let vendorareas = $('#edit_vendor_products').val()
 
     $.ajaxSetup({
         headers: {
@@ -841,6 +843,8 @@ $(document).on('submit', '#addVendorForm', function (e) {
             vendorAccountHolderName: vendorAccountHolderName,
             vendorAccountNumber: vendorAccountNumber,
             vendorifsc: vendorifsc,
+            vendorproducts: vendorproducts,
+            vendorareas: vendorareas,
         },
         beforeSend: function () {
             $('.add_submit_btn').attr('disabled', true).html('Processing...')

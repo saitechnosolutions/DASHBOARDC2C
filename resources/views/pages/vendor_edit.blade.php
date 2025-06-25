@@ -397,7 +397,7 @@
 
                     if (response.status == 200) {
                         const updatedProducts = response.products
-                        $('#addVendorForm')[0].reset()
+                        $('#editVendorForm')[0].reset()
 
                         Swal.fire({
                             title: 'Success',

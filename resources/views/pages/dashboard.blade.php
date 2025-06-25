@@ -56,7 +56,7 @@
                                 <div class="flex-grow-1">
                                     <span class="text-muted mb-3 lh-1 d-block text-truncate">Total Offers</span>
                                     <h4 class="mb-3">
-                                        <span class="counter-value" data-target="{{ $offerCount }}">0</span>
+                                        {{-- <span class="counter-value" data-target="{{ $offerCount }}">0</span> --}}
                                     </h4>
                                     {{-- <div class="text-nowrap">
                                     <span class="badge bg-success-subtle text-success">+$20.9k</span>
