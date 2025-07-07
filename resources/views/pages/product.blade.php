@@ -12,7 +12,8 @@
                 <div class="container">
                     <h2 class="mb-4">Products</h2>
                     <div class="table-responsive">
-                        <table id="projectsTable" class="table table-bordered table-hover nowrap dt-responsive w-100 mt-5">
+                        <table id="productviewTable"
+                            class="table table-bordered table-hover nowrap dt-responsive w-100 mt-5">
                             <thead>
                                 <tr class="table-warning">
                                     <th>S.NO</th>
@@ -33,7 +34,7 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
-            var table = $("#projectsTable").DataTable({
+            var table = $("#productviewTable").DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {

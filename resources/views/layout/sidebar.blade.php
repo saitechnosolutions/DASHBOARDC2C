@@ -62,7 +62,9 @@
                                     Category</a></li>
                             <li><a href="{{ url('/contractor/view') }}" data-key="t-customers">Contractors</a></li>
                             <li><a href="{{ url('/hotdeals/view') }}" data-key="t-customers">Hot Deals</a></li>
+                            <li><a href="{{ url('/projects/view') }}" data-key="t-customers">Projects</a></li>
                             <li><a href="{{ url('/order/view') }}" data-key="t-customers">Orders</a></li>
+                            <li><a href="{{ url('/blog/view') }}" data-key="t-customers">Blog</a></li>
 
                             {{-- <li><a href="ecommerce-cart.html" data-key="t-cart">Cart</a></li>
                         <li><a href="ecommerce-checkout.html" data-key="t-checkout">Checkout</a></li>

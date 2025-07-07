@@ -1391,3 +1391,190 @@ $(document).on('submit', '#color_family_add_form', function (event) {
         },
     })
 })
+
+$(document).ready(function () {
+    $('#prod_static_color_add').hide()
+
+    $('#static_colored_prod_check').on('change', function () {
+        if ($(this).is(':checked')) {
+            // AJAX call
+            $('#prod_static_color_add').show(500)
+            $('#non_colored_div').hide(500)
+        } else {
+            $('#prod_static_color_add').hide(500)
+            $('#non_colored_div').show(500)
+        }
+    })
+
+    $('#non-colored_prod_check').on('change', function () {
+        if ($(this).is(':checked')) {
+            // AJAX call
+            $('#static_color_check_div').hide(500)
+        } else {
+            $('#static_color_check_div').show(500)
+        }
+    })
+
+    $('.add-input1_color').click(function () {
+        var inputField = $('.product_color_count')
+        var currentValue = parseInt(inputField.val())
+        inputField.val(currentValue + 1)
+        var inputGroup = `
+        <div class="d-flex product_fields1_color">
+            <div class="row">
+                <div class="col-lg-8">
+                    <div class="mb-3">
+                        <label class="form-label" for="add_product_image">Product Color*</label>
+                        <input type="text" class="form-control"
+                            id="add_product_static_color" placeholder="Product Color" name="product_static_color[]" required>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-sm-12 mt-4">
+                    <div class="input-group-append">
+                        <button class="btn btn-danger delete-input1_color"
+                            type="button">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>`
+        $('.dynamic-inputs1_color').append(inputGroup)
+    })
+
+    // Delete input
+    $(document).on('click', '.delete-input1_color', function () {
+        $(this).closest('.product_fields1_color').remove()
+    })
+})
+
+$(document).on('submit', '#add_blog_form', function (event) {
+    event.preventDefault()
+
+    let formdata = new FormData(event.target)
+
+    $.ajax({
+        type: 'POST',
+        url: '/blog/store',
+        data: formdata,
+        processData: false,
+        contentType: false,
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+        },
+        beforeSend: function () {
+            $('.preloader').fadeIn()
+        },
+        success: function (response) {
+            $('.preloader').fadeOut()
+            console.log(response)
+            if (response.status == 200) {
+                Swal.fire({
+                    title: 'Success',
+                    text: response.message,
+                    icon: 'success',
+                })
+
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.onmouseenter = Swal.stopTimer
+                        toast.onmouseleave = Swal.resumeTimer
+                    },
+                })
+
+                Toast.fire({
+                    icon: 'success',
+                    title: response.message,
+                })
+
+                setTimeout(function () {
+                    window.location.reload()
+                }, 1500)
+            } else {
+                Swal.fire({
+                    title: 'Error',
+                    text: response.message || 'An unexpected error occurred.',
+                    icon: 'error',
+                })
+            }
+        },
+        error: function (xhr) {
+            $('.preloader').fadeOut()
+
+            Swal.fire({
+                title: 'Error',
+                text: xhr.responseJSON?.message || 'An error occurred.',
+                icon: 'error',
+            })
+        },
+    })
+})
+
+$(document).on('submit', '#add_project_form', function (event) {
+    event.preventDefault()
+
+    let formdata = new FormData(event.target)
+
+    $.ajax({
+        type: 'POST',
+        url: '/projects/store',
+        data: formdata,
+        processData: false,
+        contentType: false,
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+        },
+        beforeSend: function () {
+            $('.preloader').fadeIn()
+        },
+        success: function (response) {
+            $('.preloader').fadeOut()
+            if (response.status == 200) {
+                Swal.fire({
+                    title: 'Success',
+                    text: response.message,
+                    icon: 'success',
+                })
+
+                const Toast = Swal.mixin({
+                    toast: true,
+                    position: 'top-end',
+                    showConfirmButton: false,
+                    timer: 1500,
+                    timerProgressBar: true,
+                    didOpen: (toast) => {
+                        toast.onmouseenter = Swal.stopTimer
+                        toast.onmouseleave = Swal.resumeTimer
+                    },
+                })
+
+                Toast.fire({
+                    icon: 'success',
+                    title: response.message,
+                })
+
+                setTimeout(function () {
+                    window.location.reload()
+                }, 1500)
+            } else {
+                Swal.fire({
+                    title: 'Error',
+                    text: response.message || 'An unexpected error occurred.',
+                    icon: 'error',
+                })
+            }
+        },
+        error: function (xhr) {
+            $('.preloader').fadeOut()
+
+            Swal.fire({
+                title: 'Error',
+                text: xhr.responseJSON?.message || 'An error occurred.',
+                icon: 'error',
+            })
+        },
+    })
+})

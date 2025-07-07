@@ -1,23 +1,34 @@
 @extends('layout.app')
 @section('main_content')
+    <style>
+        .select2-container {
+            z-index: 1055 !important;
+            /* Bootstrap modal default is 1050 */
+        }
+    </style>
     <div class="col-lg-12">
         <div class="card card-h-100">
             <div class="card-body">
-                <div class="mb-5 text-end">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addcategoryModal">
-                        Add Category
-                    </button>
-                </div>
-                {{-- {{ $dataTable->table() }} --}}
                 <div class="container">
-                    <h2 class="mb-4">Categories</h2>
+                    <div class="row mb-4">
+                        <div class="col-lg-6">
+                            <h2 class="mb-4">Projects</h2>
+                        </div>
+                        <div class="col-lg-6 text-end">
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                data-bs-target="#exampleModal">
+                                Add Project
+                            </button>
+                        </div>
+                    </div>
                     <div class="table-responsive">
-                        <table id="categoryviewTable"
+                        <table id="projectviewTable"
                             class="table table-bordered table-hover nowrap dt-responsive w-100 mt-5">
                             <thead>
                                 <tr class="table-warning">
                                     <th>S.NO</th>
-                                    <th>Category name</th>
+                                    <th>Project Title</th>
+                                    <th>Project Products</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -28,61 +39,36 @@
         </div>
     </div>
 
-    <div class="modal fade" id="addcategoryModal" tabindex="-1" aria-labelledby="addcategoryModalLabel" aria-hidden="true">
-        <div class="modal-dialog">
+    <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="addcategoryModalLabel">Add Category</h1>
+                    <h1 class="modal-title fs-5" id="exampleModalLabel">Add Project</h1>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body">
-                    <form action="" id="category_add_form">
+                    <form action="" id="add_project_form">
                         <div class="mb-3">
-                            <label for="category_add_input" class="form-label">Category Name</label>
-                            <input type="text" class="form-control" id="category_add_input" name="category_add_input"
-                                placeholder="Enter Category Name">
+                            <label for="form-label">Project Title</label>
+                            <input type="text" name="add_project_title" id="add_project_title" class="form-control">
                         </div>
                         <div class="mb-3">
-                            <label for="category_add_input" class="form-label">Category Name</label>
-                            <input type="file" class="form-control" id="add_category_image" placeholder="Category Image"
-                                accept="image/*" name="add_category_image" required>
+                            <label for="form-label">Project Products</label>
+                            <select class="form-control form-select select2" name="add_project_products[]"
+                                multiple="multiple" id="add_project_products" required style="z-index: 9999">
+                                @foreach ($products as $product)
+                                    <option value="{{ $product->id }}">
+                                        {{ $product->product_name }}
+                                    </option>
+                                @endforeach
+                            </select>
                         </div>
-                        <div class="text-end gap-4">
-                            <button type="submit" class="btn btn-primary">Save changes</button>
-                        </div>
-
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    {{-- Edit Category Modal --}}
-    <div class="modal fade" id="editcategoryModal" tabindex="-1" aria-labelledby="editcategoryModalLabel"
-        aria-hidden="true">
-        <div class="modal-dialog">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h1 class="modal-title fs-5" id="editcategoryModalLabel">Edit Category</h1>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <form id="category_edit_form" method="POST">
-                        @csrf
-                        @method('POST') {{-- Use PUT since you're updating --}}
-                        <input type="hidden" id="editCategoryId" name="id">
-
-                        <div class="mb-3">
-                            <label for="editCategoryName" class="form-label">Category Name</label>
-                            <input type="text" class="form-control" id="editCategoryName" name="category_name"
-                                placeholder="Enter Category Name">
-                        </div>
-
-                        <div class="text-end gap-4">
+                        <div class="text-end">
                             <button type="submit" class="btn btn-primary">Save changes</button>
                         </div>
                     </form>
                 </div>
+
             </div>
         </div>
     </div>
@@ -90,11 +76,20 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
-            var table = $("#categoryviewTable").DataTable({
+            $('#add_project_products').select2({
+                placeholder: "Select Products",
+                allowClear: true,
+                width: '100%' // Ensure it expands fully
+            });
+        });
+    </script>
+    <script>
+        $(document).ready(function() {
+            var table = $("#projectviewTable").DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
-                    url: "/category/fetchallcategory",
+                    url: "/projects/fetchallprojects",
                     type: "POST",
                     data: function(d) {
                         d.executive = $("#executive").val();
@@ -113,7 +108,10 @@
                         data: "sno",
                     },
                     {
-                        data: "categoryname",
+                        data: "projecttitle",
+                    },
+                    {
+                        data: "projectprods",
                     },
                     {
                         data: "action",
@@ -304,6 +302,78 @@
                     form.submit(); // form will be submitted, then handled by Laravel
                 }
             });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $(document).on('click', '.view-order-details-btn', function() {
+
+                let order_id = $(this).data('id');
+
+                $.ajaxSetup({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                    },
+                });
+
+                $.ajax({
+                    url: '/order/fetchorderdetails',
+                    method: 'POST',
+                    dataType: 'json',
+                    data: {
+                        order_id: order_id,
+                    },
+                    beforeSend: function() {
+                        $('.add_submit_btn').attr('disabled', true).html('Processing...');
+                    },
+                    success: function(response) {
+                        $('.add_submit_btn').removeAttr('disabled').html('Submit');
+
+                        let products = response.order_details; // assuming array of products
+                        console.log(products);
+
+                        let tableHtml = `
+                        <table class="table table-bordered mt-3">
+                            <thead>
+                                <tr>
+                                    <th>S No</th>
+                                    <th>Product Name</th>
+                                    <th>Quantity</th>
+                                    <th>Price</th>
+                                </tr>
+                            </thead>
+                            <tbody>`;
+
+                        products.forEach((product, index) => {
+                            tableHtml += `
+                            <tr>
+                                <td>${index + 1}</td>
+                                <td>${product.product.product_name}</td>
+                                <td>${product.quantity}</td>
+                                <td>${product.prod_price}</td>
+                            </tr>`;
+                        });
+
+                        tableHtml += `</tbody></table>`;
+
+                        $('#editcategoryModal .modal-body').html(tableHtml);
+                        $('#editcategoryModal').modal('show');
+                    },
+                    error: function(jqXHR, textStatus, errorThrown) {
+                        $('.add_submit_btn').removeAttr('disabled').html('Submit');
+                        console.log(textStatus + ': ' + errorThrown);
+                        Swal.fire(textStatus.toUpperCase(), errorThrown, 'warning');
+                    },
+                });
+
+            });
+        });
+    </script>
+
+    <script>
+        $(document).ready(function() {
+            $('#summernote').summernote();
         });
     </script>
 @endpush

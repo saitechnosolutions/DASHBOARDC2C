@@ -7,12 +7,14 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\SubCategoryController;
 use App\Http\Controllers\VendorController;
 use App\Http\Controllers\BannerController;
+use App\Http\Controllers\BlogController;
 use App\Http\Controllers\ColorShadeController;
 use App\Http\Controllers\consultationController;
 use App\Http\Controllers\ContractorController;
 use App\Http\Controllers\HotDealsController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\PainterController;
+use App\Http\Controllers\ProjectController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -131,5 +133,23 @@ Route::middleware(['auth'])->group(function () {
     Route::POST('/order/fetchallorder',[OrderController::class,'fetchallorder']);
     Route::POST('/order/fetchorderdetails',[OrderController::class,'fetchorderdetails']);
 
-    Route::GET('/prod/update-unique-name',[ProductController::class,'updateUniqueName']);
+    // Route::GET('/prod/update-unique-name',[ProductController::class,'updateUniqueName']);
+
+    Route::GET('/blog/view',[BlogController::class,'index']);
+    Route::POST('/blog/fetchallblogs',[BlogController::class,'fetchallblogs']);
+    Route::POST('/blog/store',[BlogController::class,'storeblog']);
+    Route::POST('/blog/fetchorderdetails',[BlogController::class,'fetchorderdetails']);
+
+    Route::POST('/order/change-status',[OrderController::class,'changeorderStatus']);
+    Route::POST('/order/pending-order',[OrderController::class,'fetchpendingorder']);
+    Route::POST('/order/packed-order',[OrderController::class,'fetchpackedorder']);
+    Route::POST('/order/dispatched-order',[OrderController::class,'fetchispatchedDorder']);
+    Route::POST('/order/out-for-delivery-order',[OrderController::class,'fetchoutfordeliveryorder']);
+    Route::POST('/order/delivered-order',[OrderController::class,'fetchdeliveredorder']);
+
+
+    Route::GET('/projects/view',[ProjectController::class,'index']);
+    Route::POST('/projects/fetchallprojects',[ProjectController::class,'fetchallprojects']);
+    Route::POST('/projects/store',[ProjectController::class,'storeproject']);
+    Route::POST('/projects/fetchorderdetails',[ProjectController::class,'fetchorderdetails']);
 });

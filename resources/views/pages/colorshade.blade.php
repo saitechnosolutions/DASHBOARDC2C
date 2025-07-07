@@ -10,7 +10,7 @@
                 </div>
                 <div class="container">
                     <h2 class="mb-4">ColorShade</h2>
-                    <table id="projectsTable" class="table table-bordered table-hover nowrap w-100 mt-5">
+                    <table id="colorshadeviewTable" class="table table-bordered table-hover nowrap w-100 mt-5">
                         <thead>
                             <tr class="table-warning">
                                 <th>S.NO</th>
@@ -93,7 +93,7 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
-            var table = $("#projectsTable").DataTable({
+            var table = $("#colorshadeviewTable").DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {

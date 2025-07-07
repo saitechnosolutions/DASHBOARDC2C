@@ -12,7 +12,8 @@
                 <div class="container">
                     <h2 class="mb-4">SubCategories</h2>
                     <div class="table-responsive">
-                        <table id="projectsTable" class="table table-bordered table-hover nowrap dt-responsive w-100 mt-5">
+                        <table id="subcategoryviewTable"
+                            class="table table-bordered table-hover nowrap dt-responsive w-100 mt-5">
                             <thead>
                                 <tr class="table-warning">
                                     <th>S.NO</th>
@@ -83,7 +84,8 @@
                         @method('POST') {{-- Use PUT since you're updating --}}
                         <div class="mb-3">
                             <label for="category_add_select" class="form-label">Choose Category</label>
-                            <select class="form-select" aria-label="Default select example" id="category_edit_select" name="category_edit_select">
+                            <select class="form-select" aria-label="Default select example" id="category_edit_select"
+                                name="category_edit_select">
                                 <option selected>Open this select menu</option>
                                 @foreach ($categories as $category)
                                     <option value="{{ $category->id }}">{{ $category->category_name }}</option>
@@ -115,7 +117,7 @@
 @push('scripts')
     <script>
         $(document).ready(function() {
-            var table = $("#projectsTable").DataTable({
+            var table = $("#subcategoryviewTable").DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {

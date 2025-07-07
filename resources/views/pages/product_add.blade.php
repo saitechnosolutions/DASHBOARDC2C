@@ -122,10 +122,64 @@
                                 </div>
                             </div>
 
+                            <div class="col-md-3" id="non_colored_div">
+                                <div class="mb-3">
+                                    <input class="form-check-input" type="checkbox" value="1"
+                                        id="non-colored_prod_check" name="non_colored_prod_check">
+                                    <label class="form-check-label ms-2" for="colored_prod_check">
+                                        Non Colored Product
+                                    </label>
+
+                                </div>
+                            </div>
+
+                            <div class="col-md-3">
+                                <div class="mb-3 align-items-center" id="static_color_check_div">
+                                    <input class="form-check-input" type="checkbox" value="1"
+                                        id="static_colored_prod_check" name="static_colored_prod_check">
+                                    <label class="form-check-label ms-2" for="static_colored_prod_check">
+                                        Static Colors
+                                    </label>
+                                </div>
+                            </div>
+
+                            <div class="col-lg-4" id="prod_static_color_add">
+                                <div class="row">
+                                    <div class="col-lg-12">
+                                        <div id="dynamic-inputs1_color" class="dynamic-inputs1_color">
+                                            <div class="d-flex product_fields1">
+                                                <div class="row">
+                                                    <div class="col-lg-8">
+                                                        <div class="mb-3">
+                                                            <label class="form-label" for="add_product_color">Product
+                                                                Color*</label>
+                                                            <input type="text" class="form-control"
+                                                                id="product_static_color" placeholder="Product Color"
+                                                                name="product_static_color[]" required>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-lg-4 col-sm-12 mt-4">
+                                                        <div class="input-group-append">
+                                                            <button class="btn btn-danger delete-input1_color"
+                                                                type="button">Delete</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12 mt-3">
+                                        <button id="add-input1_color" class="btn btn-success add-input1_color"
+                                            type="button">Add
+                                            Another Color</button>
+                                    </div>
+                                </div>
+
+                            </div>
 
                         </div>
 
-                        <div class="col-lg-12">
+                        <div class="col-lg-12 mt-4">
                             <div class="row">
                                 <div class="card" style="padding: 20px;border: 1px solid;">
                                     <h5>Product Varient</h5>
@@ -149,7 +203,7 @@
                                                         </div>
                                                     </label>
 
-                                                    <div class="col-md-4">
+                                                    <div class="col-md-3">
                                                         <div class="mb-3">
                                                             <label class="form-label" for="add_varient_image">Variant
                                                                 Image*(750 *
@@ -162,7 +216,7 @@
                                                     </div>
 
 
-                                                    <div class="col-md-4">
+                                                    <div class="col-md-3">
                                                         <div class="mb-3">
                                                             <label class="form-label" for="add_varient_name">Variant
                                                                 Name*</label>
@@ -171,6 +225,7 @@
                                                                 placeholder="Varient Name" required>
                                                         </div>
                                                     </div>
+
                                                     <div class="col-md-4">
                                                         <div class="mb-3">
                                                             <label class="form-label" for="add_product_quantity">Available
@@ -256,6 +311,11 @@
                                                             </select>
                                                         </div>
                                                     </div>
+
+                                                    <div class="row">
+
+                                                    </div>
+
                                                     <div class="col-md-3  d-flex justify-content-start align-items-center">
                                                         <div class="mb-3 mt-4">
 
@@ -273,46 +333,59 @@
                                                         </div>
                                                     </div>
 
-                                                    <div class="mb-3" style="">
-                                                        <h5>Product Thump Images</h5>
-                                                        <input type="hidden" name="product_image_count[]"
-                                                            class="product_image_count" value="1">
-                                                        <div class="col-lg-12">
-                                                            <div id="dynamic-inputs1" class="dynamic-inputs1">
+                                                    <div class="col-md-3">
+
+                                                    </div>
+                                                    <div class="col-md-3">
+
+                                                    </div>
+
+                                                    <div class="col-md-6">
+                                                        <div class="mb-3" style="">
+                                                            <h5>Product Thump Images</h5>
+                                                            <input type="hidden" name="product_image_count[]"
+                                                                class="product_image_count" value="1">
+                                                            <div class="col-lg-12">
+                                                                <div id="dynamic-inputs1" class="dynamic-inputs1">
 
 
-                                                                <div class="d-flex product_fields1">
-                                                                    <div class="row">
-                                                                        <div class="col-lg-8">
-                                                                            <div class="mb-3">
-                                                                                <label class="form-label"
-                                                                                    for="add_product_image">Product
-                                                                                    Image*(750 *
-                                                                                    600)</label>
-                                                                                <input type="file"
-                                                                                    class="form-control image_el dropzone needsclick"
-                                                                                    id="add_product_image"
-                                                                                    placeholder="Product Image"
-                                                                                    name="product_image1[]" required>
+                                                                    <div class="d-flex product_fields1">
+                                                                        <div class="row">
+                                                                            <div class="col-lg-8">
+                                                                                <div class="mb-3">
+                                                                                    <label class="form-label"
+                                                                                        for="add_product_image">Product
+                                                                                        Image*(750 *
+                                                                                        600)</label>
+                                                                                    <input type="file"
+                                                                                        class="form-control image_el dropzone needsclick"
+                                                                                        id="add_product_image"
+                                                                                        placeholder="Product Image"
+                                                                                        name="product_image1[]" required>
+                                                                                </div>
                                                                             </div>
-                                                                        </div>
-                                                                        <div class="col-lg-4 col-sm-12 mt-4">
-                                                                            <div class="input-group-append">
-                                                                                <button
-                                                                                    class="btn btn-danger delete-input1"
-                                                                                    type="button">Delete</button>
+                                                                            <div class="col-lg-4 col-sm-12 mt-4">
+                                                                                <div class="input-group-append">
+                                                                                    <button
+                                                                                        class="btn btn-danger delete-input1"
+                                                                                        type="button">Delete</button>
+                                                                                </div>
                                                                             </div>
                                                                         </div>
                                                                     </div>
                                                                 </div>
                                                             </div>
-                                                        </div>
-                                                        <div class="col-lg-3 mt-3">
-                                                            <button id="add-input1" class="btn btn-success add-input1"
-                                                                type="button">Add
-                                                                Another Images</button>
+                                                            <div class="col-lg-3 mt-3">
+                                                                <button id="add-input1" class="btn btn-success add-input1"
+                                                                    type="button">Add
+                                                                    Another Images</button>
+                                                            </div>
                                                         </div>
                                                     </div>
+
+
+
+
                                                     <br>
                                                     <hr>
                                                     {{-- <div class="col-lg-3 col-sm-12 mt-4">

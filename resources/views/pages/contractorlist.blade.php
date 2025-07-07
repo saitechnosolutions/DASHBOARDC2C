@@ -11,7 +11,8 @@
                 <div class="container">
                     <h2 class="mb-4">Contractors</h2>
                     <div class="table-responsive">
-                        <table id="projectsTable" class="table table-bordered table-hover nowrap dt-responsive w-100 mt-5">
+                        <table id="contractorviewTable"
+                            class="table table-bordered table-hover nowrap dt-responsive w-100 mt-5">
                             <thead>
                                 <tr class="table-warning">
                                     <th>S.NO</th>
@@ -75,7 +76,7 @@
 
     <script>
         $(document).ready(function() {
-            var table = $("#projectsTable").DataTable({
+            var table = $("#contractorviewTable").DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
