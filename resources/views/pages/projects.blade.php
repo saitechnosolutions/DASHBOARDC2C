@@ -28,7 +28,7 @@
                                 <tr class="table-warning">
                                     <th>S.NO</th>
                                     <th>Project Title</th>
-                                    <th>Project Products</th>
+                                    <th>Project Image</th>
                                     <th>Action</th>
                                 </tr>
                             </thead>
@@ -53,6 +53,10 @@
                             <input type="text" name="add_project_title" id="add_project_title" class="form-control">
                         </div>
                         <div class="mb-3">
+                            <label for="form-label">Project Display Image</label>
+                            <input type="file" name="add_project_image" id="add_project_image" class="form-control">
+                        </div>
+                        <div class="mb-3">
                             <label for="form-label">Project Products</label>
                             <select class="form-control form-select select2" name="add_project_products[]"
                                 multiple="multiple" id="add_project_products" required style="z-index: 9999">
@@ -62,6 +66,54 @@
                                     </option>
                                 @endforeach
                             </select>
+                        </div>
+                        <div class="text-end">
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade" id="projectproductModal" tabindex="-1" aria-labelledby="projectproductModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h1 class="modal-title fs-5" id="projectproductModalLabel">Edit Project</h1>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <form action="" id="edit_project_form">
+                        <div class="mb-3">
+                            <label for="form-label">Project Title</label>
+                            <input type="text" name="edit_project_title" id="edit_project_title" class="form-control">
+                        </div>
+                        <div class="row">
+                            <div class="col-lg-6">
+                                <div class="mb-3">
+                                    <label for="form-label">Project Display Image</label>
+                                    <input type="file" name="edit_project_image" id="edit_project_image"
+                                        class="form-control">
+                                </div>
+                            </div>
+                            <div class="col-lg-6">
+                                <img id="edit_project_image_preview" src="" alt="Project Image" class="img-fluid">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="form-label">Project Products</label>
+                            <select class="form-control form-select select2" name="edit_project_products[]"
+                                multiple="multiple" id="edit_project_products" required style="z-index: 9999">
+                                @foreach ($products as $product)
+                                    <option value="{{ $product->id }}">
+                                        {{ $product->product_name }}
+                                    </option>
+                                @endforeach
+                            </select>
+                            <input type="hidden" name="project_id" id="hidden_project_id">
                         </div>
                         <div class="text-end">
                             <button type="submit" class="btn btn-primary">Save changes</button>
@@ -111,7 +163,7 @@
                         data: "projecttitle",
                     },
                     {
-                        data: "projectprods",
+                        data: "projectimage",
                     },
                     {
                         data: "action",
@@ -260,26 +312,33 @@
 
     <script>
         $(document).ready(function() {
+            $('#edit_project_products').select2({
+                placeholder: "Select Products",
+                allowClear: true,
+                width: '100%'
+            });
+            $(document).on('click', '.edit-project-products-btn', function() {
+                let projectId = $(this).data('id');
+                let projectName = $(this).data('name');
+                let projectImage = $(this).data('image');
+                let projectProducts = $(this).data('products'); // this will be an array
 
-            // Handle Edit Button Click
-            $(document).on('click', '.edit-category-btn', function() {
-                let categoryId = $(this).data('id');
-                let categoryName = $(this).data('name');
+                // Set input values
+                $('#edit_project_title').val(projectName);
+                $('#hidden_project_id').val(projectId);
 
-                //             Try me!
-                // Swal.fire({
-                //   title: "Updated!",
-                //   icon: "success",
-                //   draggable: true
-                // });
+                // Set preview image
+                let imageUrl = `${window.location.origin}/uploads/projects/${projectImage}`;
+                $('#edit_project_image').closest('.row').find('img').attr('src', imageUrl);
 
-                $('#editCategoryId').val(categoryId);
-                $('#editCategoryName').val(categoryName);
-                $('#category_edit_form').attr('action', '/category/update/' + categoryId);
-            })
+                // Set Select2 selected values
+                $('#edit_project_products').val(projectProducts);
+            });
 
-
-
+            // Initialize select2
+            if (Array.isArray(projectProducts)) {
+                $('#edit_project_products').val(projectProducts.map(String)).trigger('change');
+            }
         });
     </script>
 

@@ -33,20 +33,29 @@ class ProjectController extends Controller {
             ->addColumn('projecttitle', function ($data) {
                 return $data->project_name ? $data->project_name : '-';
             })
-            ->addColumn('projectprods', function ($data) {
-                return $data->project_name ? $data->project_name : '-';
+            ->addColumn('projectimage', function ($data) {
+                if ($data->project_image) {
+                    $imageUrl = asset('uploads/projects/' . $data->project_image); // Adjust path as needed
+                    return '<img src="' . $imageUrl . '" alt="Blog Image" width="80" height="60">';
+                } else {
+                    return '-';
+                }
             })
             ->addColumn('action', function ($data) {
+                $productIds = ProjectProd::where('project_id', $data->id)->pluck('product_id')->toArray();
                 return '
-                    <button class="btn btn-sm btn-primary view-order-details-btn"  
+                    <button class="btn btn-sm btn-primary edit-project-products-btn"  
                         data-id="' . $data->id . '" 
+                        data-name="' . $data->project_name . '" 
+                        data-image="' . $data->project_image . '" 
+                        data-products=\'' . json_encode($productIds) . '\'
                         data-bs-toggle="modal" 
-                        data-bs-target="#editcategoryModal">
+                        data-bs-target="#projectproductModal">
                         Edit
                     </button>
                 ';
             })
-            ->rawColumns(['action'])            
+            ->rawColumns(['action','projectimage'])            
             ->toJson();
     }
 
@@ -55,8 +64,23 @@ class ProjectController extends Controller {
             $projectTitle = $request->add_project_title;
             $projectProducts = $request->add_project_products;
 
+            if ( $request->hasFile( 'add_project_image' ) ) {
+                $file = $request->file( 'add_project_image' );
+                $extension = $file->getClientOriginalExtension();
+                $imagePath = time() . 'b' . '.' . $extension;
+                $file->move( 'uploads/projects', $imagePath );
+            }
+
+            $project_unique_name = strtolower(
+                preg_replace('/[^a-zA-Z0-9\s]/', '', $projectTitle) // Remove special chars
+            );
+            
+            $project_unique_name = str_replace(' ', '-', $project_unique_name); 
+
             $project = Project::create([
                 'project_name'=>$projectTitle, 
+                'project_image'=>$imagePath, 
+                'project_url'=>$project_unique_name, 
             ]);
 
             foreach($projectProducts as $product){
