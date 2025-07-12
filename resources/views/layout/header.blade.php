@@ -1,3 +1,8 @@
+<style>
+    .navbar-header {
+        background: #08137a !important;
+    }
+</style>
 <header id="page-topbar">
     <div class="navbar-header">
         <div class="d-flex">
@@ -5,7 +10,8 @@
             <div class="navbar-brand-box">
                 <a href="{{ url('/') }}" class="logo logo-dark">
                     <span class="logo-sm">
-                        <img src="/assets/images/logo/logo.png" alt="" height="100">
+                        <img src="/assets/images/logo/logo.png" alt="" height="100" width="30px"
+                            style="object-fit: contain">
                     </span>
                     <span class="logo-lg">
                         <img src="/assets/images/logo/logo.png" alt="" height="100"> <span
@@ -15,7 +21,7 @@
 
                 <a href="index.html" class="logo logo-light">
                     <span class="logo-sm">
-                        <img src="/assets/images/logo/logo.png" alt="" height="30">
+                        <img src="/assets/images/logo/logo.png" alt="" height="30" width="30px">
                     </span>
                     <span class="logo-lg">
                         <img src="/assets/images/logo/logo.png" alt="" height="24"> <span
@@ -24,9 +30,9 @@
                 </a>
             </div>
 
-            {{-- <button type="button" class="btn btn-sm px-3 font-size-16 header-item" id="vertical-menu-btn">
+            <button type="button" class="btn btn-sm px-3 font-size-16 header-item" id="vertical-menu-btn">
                 <i class="fa fa-fw fa-bars"></i>
-            </button> --}}
+            </button>
 
             <!-- App Search-->
             {{-- <form class="app-search d-none d-lg-block">
@@ -165,9 +171,8 @@
             </div> --}}
 
             <div class="dropdown d-inline-block">
-                <button type="button" class="btn header-item bg-light-subtle border-start border-end"
-                    id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true"
-                    aria-expanded="false">
+                <button type="button" class="btn header-item"
+                    id="page-header-user-dropdown" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     <img class="rounded-circle header-profile-user" src="/assets/images/users/avatar-1.jpg"
                         alt="Header Avatar">
                     <span class="d-none d-xl-inline-block ms-1 fw-medium">{{ Auth::user()->name }}</span>

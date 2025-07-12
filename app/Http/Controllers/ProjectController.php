@@ -98,4 +98,12 @@ class ProjectController extends Controller {
             Log::error($th);
         }
     }
+
+    public function saleindex(){
+        try {
+            return view( 'pages.saledashboard');
+        } catch ( \Throwable $th ) {
+            Log::error( $th );
+        }
+    }
 }

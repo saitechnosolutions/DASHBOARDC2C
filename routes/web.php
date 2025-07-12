@@ -152,4 +152,6 @@ Route::middleware(['auth'])->group(function () {
     Route::POST('/projects/fetchallprojects',[ProjectController::class,'fetchallprojects']);
     Route::POST('/projects/store',[ProjectController::class,'storeproject']);
     Route::POST('/projects/fetchorderdetails',[ProjectController::class,'fetchorderdetails']);
+
+    Route::GET('/sale/index',[ProjectController::class,'saleindex']);
 });

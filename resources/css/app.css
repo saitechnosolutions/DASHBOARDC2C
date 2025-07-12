@@ -1,0 +1,10 @@
+.tc-projects-style2 .project-card .img .year {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 40%;
+    padding: 30px 20px 40px 10px;
+    text-align: center;
+    color: #000;
+    z-index: 10;
+}
