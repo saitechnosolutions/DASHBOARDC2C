@@ -1022,11 +1022,47 @@ $(document).on('submit', '#edit_prod_stock_form', function (e) {
     })
 })
 
+$(document).on('change', '#add_stock_prod', function () {
+    let id = $(this).val()
+
+    $('#add_stock_prod_varient').empty()
+    $('#add_stock_prod_varient').append(
+        '<option value="" disabled selected>Processing...</option>'
+    )
+
+    $.ajaxSetup({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+        },
+    })
+
+    $.ajax({
+        type: 'POST',
+        url: '/product/fetchprodvarient',
+        data: {
+            prodid: id,
+        },
+        success: function (response) {
+            $('#add_stock_prod_varient').empty()
+            $('#add_stock_prod_varient').append(
+                '<option value="" disabled selected>Select Product Varient</option>'
+            )
+            response.forEach((element) => {
+                $('#add_stock_prod_varient').append(
+                    `<option value='${element['id']}'>${element['varient_name']}</option>`
+                )
+            })
+        },
+    })
+})
+
 // ADD VENDOR STOCK
 $(document).on('submit', '#add_prod_stock_form', function (e) {
     e.preventDefault()
 
     let product = $('#add_stock_prod').val()
+    let productvarient = $('#add_stock_prod_varient').val()
+    let productprice = $('#add_stock_prod_price').val()
     let availstock = $('#add_stock_avail').val()
     let saleStock = $('#add_stock_sale').val()
     let vendor_id = $('#add_stock_vendor_id').val()
@@ -1043,7 +1079,9 @@ $(document).on('submit', '#add_prod_stock_form', function (e) {
         dataType: 'json',
         data: {
             product: product,
+            productvarient: productvarient,
             availstock: availstock,
+            productprice: productprice,
             saleStock: saleStock,
             vendor_id: vendor_id,
         },

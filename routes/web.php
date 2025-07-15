@@ -154,4 +154,6 @@ Route::middleware(['auth'])->group(function () {
     Route::POST('/projects/fetchorderdetails',[ProjectController::class,'fetchorderdetails']);
 
     Route::GET('/sale/index',[ProjectController::class,'saleindex']);
+
+    Route::POST('/product/fetchprodvarient',[VendorController::class,'fetchproductvarient']);
 });

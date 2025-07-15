@@ -6,6 +6,7 @@ use App\DataTables\VendorDataTable;
 use App\Mail\VendorCreationMail;
 use App\Models\Product;
 use App\Models\ProductStock;
+use App\Models\ProductVarient;
 use App\Models\User;
 use App\Models\Vendor;
 use App\Models\VendorArea;
@@ -125,8 +126,10 @@ class VendorController extends Controller {
 
     public function vendorStockView() {
         try {
-            $products = Product::all();
-            return view( 'vendorpages.productstock',compact('products') );
+
+            $vendor_products = VendorProduct::where('vendor_id',Auth::user()->user_id)->get();
+            
+            return view( 'vendorpages.productstock',compact('vendor_products') );
         } catch ( \Throwable $th ) {
             Log::error( $th );
             return response()->json( [
@@ -149,11 +152,8 @@ class VendorController extends Controller {
                     $start = request()->input('start', 0);
                     return $start + $rowNumber;
                 })
-                // ->addColumn('category', function ($vendor) {
-                //     return $vendor->category ? $vendor->category->category_name : '-';
-                // })
                 ->addColumn('productname', function ($vendor) {
-                    return $vendor ? $vendor->product->product_name : '-';
+                    return $vendor->product ? $vendor->product->product_name : '-';
                 })
                 ->addColumn('availablestock', function ($vendor) {
                     return $vendor ? $vendor->availablestock : '-';
@@ -195,6 +195,16 @@ class VendorController extends Controller {
         }
     }
 
+    public function fetchproductvarient(Request $request ) {
+        try {
+            $prodid = $request->prodid;
+            $prodvarients = ProductVarient::where( 'product_id', $prodid )->get();
+            return response()->json( $prodvarients );
+        } catch ( \Throwable $th ) {
+            Log::error( $th );
+        }
+    }
+
     public function editprodstock(Request $request){
         try {
             $product = $request->product;
@@ -227,16 +237,44 @@ class VendorController extends Controller {
     public function addprodstock(Request $request){
         try {
             $product = $request->product;
+            $productvarient = $request->productvarient;
+            $productprice = $request->productprice;
             $availstock = $request->availstock;
             $saleStock = $request->saleStock;
             $vendor_id = $request->vendor_id;
 
+            $product_details = Product::find($product);
+            $vendor_details = Vendor::find($vendor_id);
+
             ProductStock::create([
+                'category_id'=>$product_details->category_id,
+                'subcategory_id'=>$product_details->subcategory_id,
+                'pro_ver_id'=>$productvarient,
                 'vendor_id'=>$vendor_id,
-                'product_id'=>$product,
+                'productid'=>$product,
                 'availablestock'=> $availstock,
                 'salestock'=>$saleStock,
             ]);
+
+            $existingvendorprod = VendorProduct::where('vendor_id',$vendor_id)
+                                    ->where('product_id',$product)
+                                    ->where('product_ver_id',$productvarient)
+                                    ->first();
+
+            if ($existingvendorprod) {
+                $existingvendorprod->update([
+                    'product_price'=>$productprice,
+                ]);
+            } else {
+                VendorProduct::create([
+                    'vendor_id'=>$vendor_id,
+                    'product_id'=> $product,
+                    'product_ver_id'=>$productvarient,
+                    'product_pincode'=>$vendor_details->vendor_pincode,
+                    'product_price'=>$productprice,
+                ]);
+            }
+                                    
             
             return response()->json( [
                 'status'=>'200',

@@ -10,7 +10,7 @@
                 </div>
                 <div class="container overflow-hidden">
                     <h2 class="mb-4">Product Stock</h2>
-                    <table id="projectsTable" class="table table-bordered table-hover nowrap w-100 mt-5">
+                    <table id="vendorProductstockTable" class="table table-bordered table-hover nowrap w-100 mt-5">
                         <thead>
                             <tr class="">
                                 <th>S.NO</th>
@@ -42,10 +42,35 @@
                             <label for="formFile" class="form-label">Product</label>
                             <select class="form-select" aria-label="Default select example" id="add_stock_prod">
                                 <option selected>Choose Product</option>
-                                @foreach ($products as $prod)
-                                    <option value="{{ $prod->id }}">{{ $prod->product_name }}</option>
+                                @foreach ($vendor_products as $vendor_product)
+                                    @php
+                                        $product_details = App\Models\Product::where(
+                                            'id',
+                                            $vendor_product->product_id,
+                                        )->first();
+                                    @endphp
+                                    <option value="{{ $product_details->id }}">{{ $product_details->product_name }}</option>
                                 @endforeach
                             </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="formFile" class="form-label">Product Varient</label>
+                            <select class="form-select" aria-label="Default select example" id="add_stock_prod_varient">
+                                <option selected>Choose Product</option>
+                                @foreach ($vendor_products as $vendor_product)
+                                    @php
+                                        $product_details = App\Models\Product::where(
+                                            'id',
+                                            $vendor_product->product_id,
+                                        )->first();
+                                    @endphp
+                                    <option value="{{ $product_details->id }}">{{ $product_details->product_name }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                        <div class="mb-3">
+                            <label for="formFileMultiple" class="form-label">Product Price</label>
+                            <input class="form-control" type="text" id="add_stock_prod_price">
                         </div>
                         <div class="mb-3">
                             <label for="formFileMultiple" class="form-label">Available Stock</label>
@@ -56,7 +81,7 @@
                             <input class="form-control" type="text" id="add_stock_sale">
                         </div>
 
-                        <input type="hidden" name="" value="{{ Auth::user()->id }}" id="add_stock_vendor_id">
+                        <input type="hidden" name="" value="{{ Auth::user()->user_id }}" id="add_stock_vendor_id">
                     </div>
                     <div class="modal-footer">
                         <button type="submit" class="btn btn-primary" id="add_stock_submit_btn">Save Changes</button>
@@ -80,8 +105,14 @@
                             <label for="formFile" class="form-label">Product</label>
                             <select class="form-select" aria-label="Default select example" id="edit_stock_prod">
                                 <option selected>Choose Product</option>
-                                @foreach ($products as $prod)
-                                    <option value="{{ $prod->id }}">{{ $prod->product_name }}</option>
+                                @foreach ($vendor_products as $vendor_product)
+                                    @php
+                                        $product_details = App\Models\Product::where(
+                                            'id',
+                                            $vendor_product->product_id,
+                                        )->first();
+                                    @endphp
+                                    <option value="{{ $product_details->id }}">{{ $product_details->product_name }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -105,10 +136,10 @@
         </div>
     </div>
 @endsection
-@section('scripts')
+@push('scripts')
     <script>
         $(document).ready(function() {
-            var table = $("#projectsTable").DataTable({
+            var table = $("#vendorProductstockTable").DataTable({
                 processing: true,
                 serverSide: true,
                 ajax: {
@@ -278,4 +309,4 @@
             });
         });
     </script>
-@endsection
+@endpush

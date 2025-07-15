@@ -9,4 +9,8 @@ class Vendor extends Model {
     use HasFactory;
     protected $table = 'vendors';
     protected $guarded = [];
+
+    public function product(){
+        
+    }
 }
